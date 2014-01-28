@@ -1,0 +1,13 @@
+{
+  "name" : "android_nodejs",
+  "version" : "0.0.1",
+  "dependencies" : {
+    "express" : "*",
+    "http" : "*",
+    "jade":"*",
+    "socket.io":"*"
+    "mongoose":"*",
+    "mongodb":"*"
+  }
+}
+
