@@ -4,6 +4,7 @@ var modelUsuarios = require('../models/usermodel.js');
 	exports.nombreFunction = function () {
 	    console.log("Ejemplo de una función...");
 	}
+
 	exports.buscarUsers = function(io){	
 		modelUsuarios.find(function(err,usuarios){
 			console.log('Metodo buscarUsers');
@@ -15,11 +16,44 @@ var modelUsuarios = require('../models/usermodel.js');
 				*/
 				console.log('Return: '+usuarios);
 				io.sockets.emit('response',usuarios);
-
-				return usuarios;
 			}else{
-				return 'ERROR: '+err;
+				console.log('ERROR: '+err);
+				io.sockets.emit('response','ERROR: '+err);
+			}
+		});
+	}
+
+	exports.agregarUsers = function(io,contenidoUsuario){
+		console.log('agregarUsers');
+		console.log('contenidoUsuario');
+
+		var usuario = new modelUsuarios({
+			username: 	_username,
+			password: 	_password,
+			email: 		_email,
+			language: 	_language,
+			region: 	{
+							//Otra forma de declarar las variables
+							city: _city,
+							country: _country 
+						},
+			name: 		_name,
+			gmt: 		_gmt,
+			friends: 	[{
+							id: '',
+							status: '' 
+			}]
+		});
+
+		//Registrar en la base de datos
+		usuario.save(function(err){
+			if(!err){
+				console.log('Usuario creado');
+			}else{
 				console.log('ERROR: '+err);
 			}
 		});
+
+		//Regresar la respuesta del save
+		res.send(usuario);
 	}

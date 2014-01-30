@@ -5,7 +5,7 @@ var express =require('express'),
     puerto  =3000;
 
     server.listen(puerto);
-    var io  =require('socket.io').listen(server)
+    var io  =require('socket.io').listen(server);
 
     /*
         Implementando mongodb
@@ -21,9 +21,12 @@ var express =require('express'),
 
     //Obtener los metodos para los usuarios
     var usuarios = require('./routes/usuarios');
-
     io.sockets.on('connection',function(socket){
         //console.log('Śe detecto un cliente!');
+
+        socket.on('pepito',function(){
+
+        });
 
         socket.on('login',function(dato){
             /*
@@ -33,9 +36,18 @@ var express =require('express'),
             usuarios.buscarUsers(io);
         });
 
+	socket.on('register',function(jsonUser){
+	   console.log('Registro del usuario! ->' +jsonUser);
+	});
+
+	socket.on('friends',function(IDUser){
+	 
+	  console.log('Lista de usuarios!! '+IDUser);
+	});
+
         socket.on('logout',function(dato){
-            var response =':( -> '+dato;
-            console.log('logout: '+response);
+            var response =':(';
+            console.log('Logout!!  '+response);
             io.sockets.emit('response',response);
         });
     });
